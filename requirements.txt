@@ -16,6 +16,7 @@ flake8
 pytest
 yapf
 
+
 # API
 gcsfs
 google-cloud-storage
@@ -27,3 +28,9 @@ six>=1.14
 joblib
 memoized-property
 termcolor
+
+#extra added
+pylint
+ipdb
+matplotlib
+seaborn
