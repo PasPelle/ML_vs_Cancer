@@ -1,5 +1,5 @@
 from tensorflow import keras
-from keras import Model
+#from keras import Model
 
 from google.cloud import storage
 import os
@@ -9,8 +9,8 @@ import pickle
 
 from colorama import Fore, Style
 
-from params import *
-from tensorflow.keras.models import load_model
+from ML_vs_Cancer.params import *
+#from tensorflow.keras.models import load_model
 
 def load_model() -> keras.Model:
     """
@@ -21,38 +21,40 @@ def load_model() -> keras.Model:
     Return None (but do not Raise) if no model is found
 
     """
-    if MODEL_TARGET == "local":
-        # Get the latest model version name by the timestamp on disk
-        local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
-        local_model_paths = glob.glob(f"{local_model_directory}/*")
+    # if MODEL_TARGET == "local":
+    #     # Get the latest model version name by the timestamp on disk
+    #     local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
+    #     local_model_paths = glob.glob(f"{local_model_directory}/*")
 
-        if not local_model_paths:
-            return None
+    #     if not local_model_paths:
+    #         return None
 
-        most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
+    #     most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
 
-        latest_model = keras.models.load_model(most_recent_model_path_on_disk)
+    #     latest_model = keras.models.load_model(most_recent_model_path_on_disk)
 
-        return latest_model
-    elif MODEL_TARGET == "gcs":
-        client = storage.Client()
-        blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="model"))
+    #     return latest_model
+    # elif MODEL_TARGET == "gcs":
+    #     client = storage.Client()
+    #     blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="model"))
 
-        try:
-            latest_blob = max(blobs, key=lambda x: x.updated)
-            latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, latest_blob.name)
-            latest_blob.download_to_filename(latest_model_path_to_save)
+    #     try:
+    #         latest_blob = max(blobs, key=lambda x: x.updated)
+    #         latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, latest_blob.name)
+    #         latest_blob.download_to_filename(latest_model_path_to_save)
 
-            latest_model = keras.models.load_model(latest_model_path_to_save)
+    #         latest_model = keras.models.load_model(latest_model_path_to_save)
 
-            return latest_model
-        except:
-            return None
-    elif MODEL_TARGET == "github":
-        model = load_model('https://github.com/PasPelle/ML_vs_Cancer/tree/8447dd07cc6b73dd54c615240e10b9bd49b62ba0/notebooks/dummy_model.h5')
-        return model
-    else:
-        return None
+    #         return latest_model
+    #     except:
+    #         return None
+    # elif MODEL_TARGET == "github":
+    model = keras.models.load_model(
+        '/home/kristjan/code/ML_vs_Cancer/ML_vs_Cancer/ml_logic/dummy_model.h5',
+        compile=False)
+    return model
+    # else:
+    #     return None
 
 def save_model(model: keras.Model = None) -> None:
     """
