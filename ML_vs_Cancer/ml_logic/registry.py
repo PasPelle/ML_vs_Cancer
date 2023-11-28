@@ -10,6 +10,7 @@ import pickle
 from colorama import Fore, Style
 
 from params import *
+from tensorflow.keras.models import load_model
 
 def load_model() -> keras.Model:
     """
@@ -47,21 +48,24 @@ def load_model() -> keras.Model:
             return latest_model
         except:
             return None
+    elif MODEL_TARGET == "github":
+        model = load_model('https://github.com/PasPelle/ML_vs_Cancer/tree/8447dd07cc6b73dd54c615240e10b9bd49b62ba0/notebooks/dummy_model.h5')
+        return model
     else:
         return None
-    
+
 def save_model(model: keras.Model = None) -> None:
     """
     Persist trained model locally on the hard drive at f"{LOCAL_REGISTRY_PATH}/models/{timestamp}.h5"
     - if MODEL_TARGET='gcs', also persist it in your bucket on GCS at "models/{timestamp}.h5" --> unit 02 only
    """
-   
+
     timestamp = time.strftime("%Y%m%d-%H%M%S")
-    
+
     # Save model locally
     model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", f"{timestamp}.h5")
     model.save(model_path)
-    
+
     if MODEL_TARGET == "gcs":
 
         model_filename = model_path.split("/")[-1] # e.g. "20230208-161047.h5" for instance
