@@ -53,3 +53,6 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+
+run_api:
+	uvicorn ML_vs_Cancer.api.fast:app --reload
