@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from PIL import Image
 import io
+import numpy as np
 
 import pandas as pd
 #from fastapi.middleware.cors import CORSMiddleware
@@ -40,9 +41,10 @@ def root():
 #     #return {'Predict': "Hello ML vs Cancer"}
 #     return dict(prediction=float(y_pred))
 @app.post("/process_tiff/")
-def process_tiff(file: UploadFile = File(...)):
+async def process_tiff(file: UploadFile = File(...)):
     try:
-        image_array = read_tiff_image(file)
+        image = Image.open(file)
+        image_array = np.asarray(image)
         res = app.state.model(image_array)
         if res == 1:
             return {"Prediction": "Malign"}
