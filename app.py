@@ -1,7 +1,10 @@
 import streamlit as st
 import requests
 from PIL import Image
+import numpy as np
 import io
+import cv2
+
 
 # Use HTML style tags to define custom styles
 st.markdown('''
@@ -40,43 +43,75 @@ if uploaded_file is not None:
 # URL of the API
 url = 'YOUR_API_URL'
 
-# # Button to make the prediction
-# if st.button('Get Prediction') and uploaded_file is not None:
-#     # Convert the image to bytes for API request
-#     buffered = io.BytesIO()
-#     image.save(buffered, format="JPEG")
-#     img_byte = buffered.getvalue()
 
-#     # Send a request to the API
-#     response = requests.post(url, files={"file": img_byte})
+# Upload image_PP
 
-#     # Check if the request was successful
-#     if response.status_code == 200:
-#         prediction, accuracy = response.json()["prediction"], response.json()["accuracy"]
-#         if prediction == 1:
-#             st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
-#         else:
-#             st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
-#         st.write(f"Prediction Accuracy: {accuracy}%")
-#     else:
-#         st.error("Error in API request")
+#if uploaded_file is not None:
+    # Read and convert the uploaded .tiff image to array using cv2.imread
+    #image_array = cv2.imread(uploaded_file, cv2.IMREAD_UNCHANGED)
 
-# Button to make the prediction - TEST!
+    #if image_array is not None:
+#    st.write(image_array, caption='Uploaded Image', use_column_width=True)
+
+    #     # Button to make prediction
+    #     if st.button('Get Prediction'):
+    #         # Make prediction using the image array
+    #         prediction, accuracy = make_prediction(image_array)
+
+    #         # Display prediction result and accuracy
+    #         if prediction == 1:
+    #             st.markdown("<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+    #         else:
+    #             st.markdown("<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
+    #         st.write(f"Prediction Accuracy: {accuracy}%")
+    # else:
+    #     st.error("Error reading the uploaded image")
+
+
+image_placeholder2 = st.empty()
+
+# Button to make the prediction
 if st.button('Get Prediction') and uploaded_file is not None:
-    # Use the length of the file name to generate a pseudo-random number
-    def get_pseudo_random_prediction(file_name):
-        return len(file_name) % 2  # Returns 0 or 1
+    # Convert the image to bytes for API request
+    buffered = io.BytesIO()
+    image.save(buffered, format="JPEG")
+    img_byte = buffered.getvalue()
+    buffered.seek(0)
 
-    # Get the pseudo-random prediction
-    prediction = get_pseudo_random_prediction(uploaded_file.name)
-    accuracy = len(uploaded_file.name) % 30 + 70  # Random accuracy between 70% and 99%
+    image_placeholder2.image(Image.open(buffered), caption='Decoded Image', use_column_width=True)
 
-    # Display the prediction result
-    if prediction == 1:
-        st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+    # Send a request to the API
+    response = requests.post(url, files={"file": buffered})
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        prediction, accuracy = response.json()["prediction"], response.json()["accuracy"]
+        if prediction == 1:
+            st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
+        st.write(f"Prediction Accuracy: {accuracy}%")
     else:
-        st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
-    st.write(f"<p class='big-font'>Prediction Accuracy: {accuracy}%</p>", unsafe_allow_html=True)
+        st.error("Error in API request")
+
+
+
+# # Button to make the prediction - TEST!
+# if st.button('Get Prediction2') and uploaded_file is not None:
+#     # Use the length of the file name to generate a pseudo-random number
+#     def get_pseudo_random_prediction(file_name):
+#         return len(file_name) % 2  # Returns 0 or 1
+
+#     # Get the pseudo-random prediction
+#     prediction = get_pseudo_random_prediction(uploaded_file.name)
+#     accuracy = len(uploaded_file.name) % 30 + 70  # Random accuracy between 70% and 99%
+
+#     # Display the prediction result
+#     if prediction == 1:
+#         st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+#     else:
+#         st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
+#     st.write(f"<p class='big-font'>Prediction Accuracy: {accuracy}%</p>", unsafe_allow_html=True)
 
 
 # Footer
