@@ -46,7 +46,7 @@ async def process_tiff(file: UploadFile = File(...)):
         image = Image.open(file)
         image_array = np.asarray(image)
         res = app.state.model(image_array)
-        if res == 1:
+        if res < 0.5:
             return {"Prediction": "Malign"}
         else:
             return {"Prediction": "Bennign"}
