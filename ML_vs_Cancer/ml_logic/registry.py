@@ -50,7 +50,7 @@ def load_model() -> keras.Model:
     #         return None
     # elif MODEL_TARGET == "github":
     model = keras.models.load_model(
-        '/home/kristjan/code/ML_vs_Cancer/ML_vs_Cancer/ml_logic/dummy_model.h5',
+        '/home/kristjan/code/ML_vs_Cancer/ML_vs_Cancer/ml_logic/baseline_model.h5',
         compile=False)
     return model
     # else:
