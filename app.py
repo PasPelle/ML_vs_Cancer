@@ -55,4 +55,3 @@ if st.button('Get Prediction') and uploaded_file is not None:
 st.markdown('''
 Thank you for using the Histopathologic Cancer Detection app!
 ''')
-
