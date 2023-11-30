@@ -1,10 +1,11 @@
+
 import streamlit as st
 import requests
 from PIL import Image
 import numpy as np
-import io
+from io import BytesIO
+from ML_vs_Cancer.ml_logic.read_tiff_image import read_tiff_image
 import cv2
-
 
 # Use HTML style tags to define custom styles
 st.markdown('''
@@ -27,92 +28,82 @@ st.markdown('<p class="big-font">Welcome to the Histopathologic Cancer Detection
 ## Upload Histopathologic Image
 '''
 
+# URL of the API
+url = 'http://127.0.0.1:8000/predict_image'
+
 # Placeholder for the image
 image_placeholder = st.empty()
 
-# Upload Image
+# Upload_file:
 uploaded_file = st.file_uploader("Choose an image...", type=["tif", "tiff"])
 if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    image_placeholder.image(image, caption='Uploaded Image', use_column_width=True)
-
-'''
-## Cancer Detection Prediction
-'''
-
-# URL of the API
-url = 'YOUR_API_URL'
-
-
-# Upload image_PP
-
-#if uploaded_file is not None:
-    # Read and convert the uploaded .tiff image to array using cv2.imread
-    #image_array = cv2.imread(uploaded_file, cv2.IMREAD_UNCHANGED)
-
-    #if image_array is not None:
-#    st.write(image_array, caption='Uploaded Image', use_column_width=True)
-
-    #     # Button to make prediction
-    #     if st.button('Get Prediction'):
-    #         # Make prediction using the image array
-    #         prediction, accuracy = make_prediction(image_array)
-
-    #         # Display prediction result and accuracy
-    #         if prediction == 1:
-    #             st.markdown("<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
-    #         else:
-    #             st.markdown("<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
-    #         st.write(f"Prediction Accuracy: {accuracy}%")
-    # else:
-    #     st.error("Error reading the uploaded image")
-
-
-image_placeholder2 = st.empty()
-
-# Button to make the prediction
-if st.button('Get Prediction') and uploaded_file is not None:
-    # Convert the image to bytes for API request
-    buffered = io.BytesIO()
-    image.save(buffered, format="JPEG")
-    img_byte = buffered.getvalue()
-    buffered.seek(0)
-
-    image_placeholder2.image(Image.open(buffered), caption='Decoded Image', use_column_width=True)
-
-    # Send a request to the API
-    response = requests.post(url, files={"file": buffered})
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        prediction, accuracy = response.json()["prediction"], response.json()["accuracy"]
-        if prediction == 1:
-            st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+    st.image(uploaded_file, use_column_width=True)
+    if st.button('Get Prediction'):
+        img = uploaded_file.getvalue()
+        files={"file": ("image.tiff", img, "image/tiff")}
+        response = requests.post(url, files=files)
+        if response.status_code == 200:
+            result = response.json()
+            if "Prediction" in result:
+                prediction = result["Prediction"]
+                if prediction is not None:
+                    pred = prediction * 100
+                    if prediction < 0.5:
+                        st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='color:black;'> Accuracy: {pred}%</h3>", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='color:black;'>Accuracy: {pred}%</h3>", unsafe_allow_html=True)
+                else:
+                    st.error("Error: Prediction value is None.")
+            else:
+                st.error("Error: 'Prediction' key not found in API response.")
         else:
-            st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
-        st.write(f"Prediction Accuracy: {accuracy}%")
-    else:
-        st.error("Error in API request")
+            st.error(f"Error in API request. Status code: {response.status_code}")
 
 
 
-# # Button to make the prediction - TEST!
-# if st.button('Get Prediction2') and uploaded_file is not None:
-#     # Use the length of the file name to generate a pseudo-random number
-#     def get_pseudo_random_prediction(file_name):
-#         return len(file_name) % 2  # Returns 0 or 1
+# Upload Image
+# uploaded_file = st.file_uploader("Choose an image...", type=["tif", "tiff"])
+# if uploaded_file is not None:
+#     try:
+#         image = Image.open(uploaded_file)
+#         image_placeholder.image(image, caption='Uploaded Image', use_column_width=True)
 
-#     # Get the pseudo-random prediction
-#     prediction = get_pseudo_random_prediction(uploaded_file.name)
-#     accuracy = len(uploaded_file.name) % 30 + 70  # Random accuracy between 70% and 99%
+#         if st.button('Get Prediction'):
+#             file_content = uploaded_file.read()
+#             try:
+#                 if file_content:
+#                     response = requests.post(
+#                         url,
+#                         files={"img": ("image.tiff", file_content, "image/tiff")}
+#                     )
 
-#     # Display the prediction result
-#     if prediction == 1:
-#         st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
-#     else:
-#         st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
-#     st.write(f"<p class='big-font'>Prediction Accuracy: {accuracy}%</p>", unsafe_allow_html=True)
+#                     if response.status_code == 200:
+#                         result = response.json()
 
+#                         if image is not None:
+#                             image_placeholder.image(image, caption='Uploaded Image', use_column_width=True)
+
+#                         if "Prediction" in result:
+#                             prediction = result["Prediction"]
+#                             if prediction is not None:
+#                                 if prediction < 0.5:
+#                                     st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
+#                                 else:
+#                                     st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
+#                             else:
+#                                 st.error("Error: Prediction value is None.")
+#                         else:
+#                             st.error("Error: 'Prediction' key not found in API response.")
+#                     else:
+#                         st.error(f"Error in API request. Status code: {response.status_code}")
+#                 else:
+    #                 st.error("Error: Empty file content. Please upload a valid image.")
+    #         except Exception as e:
+    #             st.error(f"Error processing image: {e}")
+    # except Exception as e:
+    #     st.error(f"Error processing image: {e}")
 
 # Footer
 st.markdown('<p class="big-font">Thank you for using the Histopathologic Cancer Detection app!</p>', unsafe_allow_html=True)
