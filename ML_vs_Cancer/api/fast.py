@@ -5,6 +5,9 @@ from ML_vs_Cancer.ml_logic.registry import load_model
 from ML_vs_Cancer.ml_logic import read_tiff_image
 import numpy as np
 import cv2
+from PIL import Image
+from io import BytesIO
+
 app = FastAPI()
 app.state.model = load_model()
 
@@ -35,30 +38,17 @@ def predict(f1 , f2, f3, f4, f5):
     y_pred = x_dict["f1"]**2
     #return {'Predict': "Hello ML vs Cancer"}
     return dict(prediction=float(y_pred))
-
-@app.post('/upload_image')
-async def receive_image(img: UploadFile=File(...)):
-    ### Receiving and decoding the image
-    contents = await img.read()
-    # convert the raw byte content of the image into a NumPy array of 8-bit unsigned integers
-    nparr = np.fromstring(contents, np.uint8)
-    # to decode the NumPy array into an image.
-    # The resulting cv2_img is a NumPy array representing the image in BGR color format.
-    # The cv2.IMREAD_COLOR flag specifies that the image should be read in color.
-    cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) # type(cv2_img) => numpy.ndarray
-    cv2.imwrite("saved_img.tif",cv2_img)
-    ### Do cool stuff with your image.... For example face detection
-    # we dont ned this: annotated_img = annotate_face(cv2_img)
-
-    ### Encoding and responding with the image
-    retrieved_val, encoded_image = cv2.imencode('.png', nparr) # extension depends on which format is sent from Streamlit
-    #return Response(content=im.tobytes(), media_type="image/png")
-    if retrieved_val:
-        #print("Encoding successful.")
-        expanded_array_img = np.expand_dims(cv2_img, axis=0)
-        prediction = app.state.model.predict(expanded_array_img)
-        res = round(float(prediction[0][0]), 2)
-        #print (res)
-        return {"Prediction": res}
+        
+        
+@app.post("/predict_image")
+async def create_upload_file(file: UploadFile):
+    if not file:
+        return {"message": "No upload file sent"}
     else:
-        print("Encoding Failed.")
+        contents = await file.read()
+        image = Image.open(BytesIO(contents)).convert("RGB")
+        
+        expanded_array_img = np.expand_dims(image, axis=0)
+        prediction = app.state.model.predict(expanded_array_img)
+        res = round(float(prediction[0][0]), 4)
+        return {"Prediction": res}
