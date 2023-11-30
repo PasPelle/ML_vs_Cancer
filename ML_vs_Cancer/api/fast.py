@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 import pandas as pd
 #from fastapi.middleware.cors import CORSMiddleware
 from ML_vs_Cancer.ml_logic.registry import load_model
+from ML_vs_Cancer.ml_logic import read_tiff_image
 import numpy as np
 import cv2
 app = FastAPI()
@@ -31,20 +32,9 @@ def predict(f1 , f2, f3, f4, f5):
         "f5": float(f5)
     }
     X_pred = pd.DataFrame(x_dict, index=[0])
-    model = app.state.model
-    y_pred = model.predict(X_pred)
+    y_pred = x_dict["f1"]**2
     #return {'Predict': "Hello ML vs Cancer"}
     return dict(prediction=float(y_pred))
-
-# async def process_tiff(file: UploadFile = File(...)):
-#     try:
-#         image_array = read_tiff_image(file)
-#         image = Image.open(file)
-#         image_array = np.asarray(image)
-#         res = app.state.model(image_array)
-#         if res == 1:
-#             return {"Prediction": "Malign"}
-#     except:
 
 @app.post('/upload_image')
 async def receive_image(img: UploadFile=File(...)):
@@ -56,7 +46,7 @@ async def receive_image(img: UploadFile=File(...)):
     # The resulting cv2_img is a NumPy array representing the image in BGR color format.
     # The cv2.IMREAD_COLOR flag specifies that the image should be read in color.
     cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) # type(cv2_img) => numpy.ndarray
-
+    cv2.imwrite("saved_img.tif",cv2_img)
     ### Do cool stuff with your image.... For example face detection
     # we dont ned this: annotated_img = annotate_face(cv2_img)
 
@@ -64,8 +54,11 @@ async def receive_image(img: UploadFile=File(...)):
     retrieved_val, encoded_image = cv2.imencode('.png', nparr) # extension depends on which format is sent from Streamlit
     #return Response(content=im.tobytes(), media_type="image/png")
     if retrieved_val:
-        print("Encoding successful.")
-        print(encoded_image)
+        #print("Encoding successful.")
+        expanded_array_img = np.expand_dims(cv2_img, axis=0)
+        prediction = app.state.model.predict(expanded_array_img)
+        res = round(float(prediction[0][0]), 2)
+        #print (res)
+        return {"Prediction": res}
     else:
         print("Encoding Failed.")
-        return {"Endoced image": retrieved_val}
