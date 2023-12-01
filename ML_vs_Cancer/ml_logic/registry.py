@@ -50,7 +50,7 @@ def load_model() -> keras.Model:
     #         return None
     # elif MODEL_TARGET == "github":
     model = keras.models.load_model(
-        '/prod/baseline_model.h5',
+        '/prod/raw_data/baseline_model.h5',
         compile=False)
     return model
     # else:
