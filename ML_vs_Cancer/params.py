@@ -8,5 +8,7 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME")
 
 MODEL_TARGET = os.environ.get("MODEL_TARGET")
 
+SERVICE_URL = os.environ.get("SERVICE_URL")
+
 LOCAL_DATA_PATH = os.path.join(os.path.expanduser('~'), ".lewagon", "mlops", "data")
 LOCAL_REGISTRY_PATH =  os.path.join(os.path.expanduser('~'), ".lewagon", "mlops", "training_outputs")

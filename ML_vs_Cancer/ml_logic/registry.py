@@ -3,11 +3,8 @@ from tensorflow import keras
 
 from google.cloud import storage
 import os
-import glob
 import time
 import pickle
-
-from colorama import Fore, Style
 
 from ML_vs_Cancer.params import *
 #from tensorflow.keras.models import load_model
@@ -21,38 +18,13 @@ def load_model() -> keras.Model:
     Return None (but do not Raise) if no model is found
 
     """
-    # if MODEL_TARGET == "local":
-    #     # Get the latest model version name by the timestamp on disk
-    #     local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
-    #     local_model_paths = glob.glob(f"{local_model_directory}/*")
 
-    #     if not local_model_paths:
-    #         return None
-
-    #     most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
-
-    #     latest_model = keras.models.load_model(most_recent_model_path_on_disk)
-
-    #     return latest_model
-    # elif MODEL_TARGET == "gcs":
-    #     client = storage.Client()
-    #     blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="model"))
-
-    #     try:
-    #         latest_blob = max(blobs, key=lambda x: x.updated)
-    #         latest_model_path_to_save = os.path.join(LOCAL_REGISTRY_PATH, latest_blob.name)
-    #         latest_blob.download_to_filename(latest_model_path_to_save)
-
-    #         latest_model = keras.models.load_model(latest_model_path_to_save)
-
-    #         return latest_model
-    #     except:
-    #         return None
-    # elif MODEL_TARGET == "github":
+    import os
     model = keras.models.load_model(
-        'raw_data/baseline_model.h5',
-        compile=False)
+        os.path.join('raw_data','baseline_model.h5'),
+                     compile=False)
     return model
+
     # else:
     #     return None
 
