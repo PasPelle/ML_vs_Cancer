@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 from PIL import Image
 import numpy as np
+from ML_vs_Cancer.params import *
 
 # Use HTML style tags to define custom styles
 st.markdown('''
@@ -26,7 +27,7 @@ st.markdown('<p class="big-font">Welcome to the Histopathologic Cancer Detection
 '''
 
 # URL of the API
-url = 'http://127.0.0.1:8000/predict_image'
+url = SERVICE_URL
 
 # Placeholder for the image
 image_placeholder = st.empty()

@@ -1,0 +1,31 @@
+# packaging
+pip>=9
+setuptools>=26
+
+# data science
+numpy
+pandas
+scikit-learn
+
+# API
+gcsfs
+google-cloud-storage
+fastapi
+pytz
+uvicorn
+
+# utilities
+joblib
+
+#extra added
+pylint
+ipdb
+
+# TODO comment before prod
+# Trick to install the version of Tensorflow depending on your processor: darwin == Mac, ARM == M1
+tensorflow-macos==2.10.0; sys_platform == 'darwin' and 'ARM' in platform_version # Mac M-chips
+tensorflow==2.10.0; sys_platform == 'darwin' and 'ARM' not in platform_version # Mac Intel chips
+tensorflow==2.10.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
+
+# Image processing
+Pillow
