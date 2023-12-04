@@ -49,10 +49,10 @@ if uploaded_file is not None:
                     if prediction < 0.5:
                         pred = 100 - pred
                         st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
-                        st.markdown(f"<h3 style='color:black;'>Probability: {pred}%</h3>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='color:black;'>Probability: {pred:.2f}%</h3>", unsafe_allow_html=True)
                     else:
                         st.markdown(f"<h2 style='color:green;'>Non-Malignant</h2>", unsafe_allow_html=True)
-                        st.markdown(f"<h3 style='color:black;'>Probability: {pred}%</h3>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='color:black;'>Probability: {pred:.2f}%</h3>", unsafe_allow_html=True)
                 else:
                     st.error("Error: Prediction value is None.")
             else:
