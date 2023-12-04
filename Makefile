@@ -25,6 +25,10 @@ clean:
 	@rm -fr ML_vs_Cancer-*.dist-info
 	@rm -fr ML_vs_Cancer.egg-info
 
+reinstall_package:
+	@pip uninstall -y ML_vs_Cancer || :
+	@pip install -e .
+
 install:
 	@pip install . -U
 

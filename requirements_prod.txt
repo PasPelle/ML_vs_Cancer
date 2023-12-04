@@ -1,44 +1,21 @@
 # packaging
 pip>=9
 setuptools>=26
-twine
-wheel>=0.29
-colorama
 
 # data science
 numpy
 pandas
 scikit-learn
-jupyter
-matplotlib
-seaborn
-
-# tests/linter
-black
-coverage
-flake8
-pytest
-yapf
-httpx
-pytest-asyncio
-
 
 # API
 gcsfs
 google-cloud-storage
-google-cloud-bigquery
-mlflow
-s3fs
 fastapi
 pytz
 uvicorn
-streamlit
 
 # utilities
-six>=1.14
 joblib
-memoized-property
-termcolor
 
 #extra added
 pylint
@@ -51,6 +28,4 @@ tensorflow==2.10.0; sys_platform == 'darwin' and 'ARM' not in platform_version #
 tensorflow==2.10.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
 
 # Image processing
-opencv-python
 Pillow
-tifffile
