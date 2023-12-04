@@ -4,7 +4,6 @@ import pandas as pd
 from ML_vs_Cancer.ml_logic.registry import load_model
 from ML_vs_Cancer.ml_logic import read_tiff_image
 import numpy as np
-import cv2
 from PIL import Image
 from io import BytesIO
 

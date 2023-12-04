@@ -1,5 +1,4 @@
 from tensorflow import keras
-#from keras import Model
 
 from google.cloud import storage
 import os
@@ -7,7 +6,6 @@ import time
 import pickle
 
 from ML_vs_Cancer.params import *
-#from tensorflow.keras.models import load_model
 
 def load_model() -> keras.Model:
     """
@@ -24,9 +22,6 @@ def load_model() -> keras.Model:
         os.path.join('raw_data','baseline_model.h5'),
                      compile=False)
     return model
-
-    # else:
-    #     return None
 
 def save_model(model: keras.Model = None) -> None:
     """
