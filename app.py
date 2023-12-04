@@ -26,7 +26,7 @@ st.markdown('<p class="big-font">Welcome to the Histopathologic Cancer Detection
 '''
 
 # URL of the API
-url = 'http://127.0.0.1:8000/predict_image'
+url = 'https://api-umiv6nwkgq-oe.a.run.app/predict_image'
 
 # Placeholder for the image
 image_placeholder = st.empty()
@@ -44,7 +44,7 @@ if uploaded_file is not None:
             if "Prediction" in result:
                 prediction = result["Prediction"]
                 if prediction is not None:
-                    pred = prediction * 100
+                    pred = round(prediction * 100, 2)
                     if prediction < 0.5:
                         pred = 100 - pred
                         st.markdown(f"<h2 style='color:red;'>Malignant</h2>", unsafe_allow_html=True)
