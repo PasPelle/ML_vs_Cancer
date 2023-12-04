@@ -27,7 +27,7 @@ st.markdown('<p class="big-font">Welcome to the Histopathologic Cancer Detection
 '''
 
 # URL of the API
-url = 'https://imageanalysis-ulbdrxxy6a-ew.a.run.app/predict_image' #SERVICE_URL
+url = 'https://imageanalysis-ulbdrxxy6a-ew.a.run.app/predict_image' # SERVICE_URL
 
 # Placeholder for the image
 image_placeholder = st.empty()
