@@ -2,6 +2,7 @@
 import streamlit as st
 import requests
 from PIL import Image
+import time
 import numpy as np
 from ML_vs_Cancer.params import *
 
