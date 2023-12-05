@@ -37,8 +37,16 @@ uploaded_file = st.file_uploader("Choose an image...", type=["tif", "tiff"])
 if uploaded_file is not None:
     st.image(uploaded_file, width=300, caption="Uploaded image")
     if st.button('Get Prediction'):
+        # Loading bar starts here
+        with st.spinner('Processing the image...'):
+            my_bar = st.progress(0)
+            for percent_complete in range(100):
+                time.sleep(0.1)
+                my_bar.progress(percent_complete + 1)
+
+        # Proceed with the image processing and prediction
         img = uploaded_file.getvalue()
-        files={"file": ("image.tiff", img, "image/tiff")}
+        files = {"file": ("image.tiff", img, "image/tiff")}
         response = requests.post(url, files=files)
         if response.status_code == 200:
             result = response.json()
