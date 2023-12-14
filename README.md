@@ -1,6 +1,6 @@
 # TEAM
 
-**Daniel Stark**: Background in 3D design … please write 1-3 sentences for yourself.<br>
+**Daniel Stark**: Background in 3D design.<br>
 <a href="https://www.linkedin.com/in/dstark2022/" target="blank"><img align="center" src="./linked-in-alt.svg" alt="kristjanqarri" height="20" width="27" /></a> <a href="https://github.com/drostark" target="blank"><img align="center" src="./octocat.svg" alt="kristjanqarri" height="20" width="27" /></a><br>
 **Katažyna Balcevič**: Experienced Android developer with a strong four-year background in the field, passionate about integrating expertise in ML Engineering with a dedication to transforming the healthcare industry.<br>
 <a href="https://www.linkedin.com/in/katazynabalcevic/" target="blank"><img align="center" src="./linked-in-alt.svg" alt="kristjanqarri" height="20" width="27" /></a> <a href="https://github.com/Katazynab" target="blank"><img align="center" src="./octocat.svg" alt="kristjanqarri" height="20" width="27" /></a><br>
