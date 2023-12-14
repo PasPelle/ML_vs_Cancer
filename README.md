@@ -9,6 +9,8 @@
 **Kristjan Qarri** Medical Technology Engineer & passionate about the application of technology in healthcare.<br>
 [![GitHub](https://img.shields.io/badge/GitHub-chrissMD-blue)](https://github.com/chrissMD) [![LinkedIn](https://img.shields.io/badge/LinkedIn-kristjanqarri-blue)](https://www.linkedin.com/in/kristjanqarri/)
 
+<a href="https://linkedin.com/in/kristjanqarri" target="blank"><img align="center" src="./linked-in-alt.svg" alt="kristjanqarri" height="30" width="40" /></a>
+
 **Pasquale Pellegrini** _(Team Leader)_ Biomedical scientist with a background in cancer research and neurodegeneration.<br>
 [![GitHub](https://img.shields.io/badge/GitHub-chrissMD-blue)](https://github.com/chrissMD) [![LinkedIn](https://img.shields.io/badge/LinkedIn-ppellegrini-blue)](https://www.linkedin.com/in/ppellegrini/)
 :octocat:
