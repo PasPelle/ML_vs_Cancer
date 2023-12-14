@@ -31,8 +31,8 @@ specifically in 'tif' or 'tiff' file formats and receive accurate predictions re
 
 # LINKS
 
-**API**: https://mlvscancer4.streamlit.app/ <br>
-**Web application**: https://imageanalysis-ulbdrxxy6a-ew.a.run.app/predict_image <br>
+**API**: https://imageanalysis-ulbdrxxy6a-ew.a.run.app/docs <br>
+**Web application**: https://mlvscancer4.streamlit.app/ <br>
 **Image to test prediction**: [Image with Malignant tissue](./yes_tumor.tif) / [Image with Non-Malignant tissue](./no_tumor.tif)<br>
 _note: Download the .TIFF image from the link above to test the prediction of the model_
 
