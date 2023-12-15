@@ -6,7 +6,7 @@
 <a href="https://www.linkedin.com/in/katazynabalcevic/" target="blank"><img align="center" src="./linked-in-alt.svg" alt="kristjanqarri" height="20" width="27" /></a> <a href="https://github.com/Katazynab" target="blank"><img align="center" src="./octocat.svg" alt="kristjanqarri" height="20" width="27" /></a><br>
 **Kristjan Qarri**: Medical Technology Engineer & passionate about the application of technology in healthcare.<br>
 <a href="https://linkedin.com/in/kristjanqarri" target="blank"><img align="center" src="./linked-in-alt.svg" alt="kristjanqarri" height="20" width="27" /></a> <a href="https://github.com/chrissMD" target="blank"><img align="center" src="./octocat.svg" alt="kristjanqarri" height="20" width="27" /></a><br>
-**Pasquale Pellegrini** _(Team Leader)_: Biomedical scientist with a background in cancer research and neurodegeneration.<br>
+**Pasquale Pellegrini** _(Team Leader)_: Data scientist with a background in cancer research and neurodegeneration.<br>
 <a href="https://www.linkedin.com/in/ppellegrini/" target="blank"><img align="center" src="./linked-in-alt.svg" alt="kristjanqarri" height="20" width="27" /></a> <a href="https://github.com/PasPelle" target="blank"><img align="center" src="./octocat.svg" alt="kristjanqarri" height="20" width="27" /></a>
 <!--[![GitHub](https://img.shields.io/badge/GitHub-chrissMD-blue)](https://github.com/chrissMD) [![LinkedIn](https://img.shields.io/badge/LinkedIn-ppellegrini-blue)](https://www.linkedin.com/in/ppellegrini/)-->
 # BACKGROUND
